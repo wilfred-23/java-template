@@ -1,0 +1,49 @@
+package com.template;
+
+public class MergeSort {
+
+    public static <T extends Comparable<T>> void sort(T[] array) {
+        mergeSort(array, 0, array.length - 1);
+    }
+
+    private static <T extends Comparable<T>> void mergeSort(T[] array, int left, int right) {
+        if (left < right) {
+            int middle = (left + right) / 2;
+
+            mergeSort(array, left, middle);
+            mergeSort(array, middle + 1, right);
+
+            merge(array, left, middle, right);
+        }
+    }
+
+    private static <T extends Comparable<T>> void merge(T[] array, int left, int middle, int right) {
+        int size1 = middle - left + 1;
+        int size2 = right - middle;
+
+        Comparable[] leftArray = new Comparable[size1];
+        Comparable[] rightArray = new Comparable[size2];
+
+        for (int i = 0; i < size1; i++)
+            leftArray[i] = array[left + i];
+
+        for (int j = 0; j < size2; j++)
+            rightArray[j] = array[middle + 1 + j];
+
+        int i = 0, j = 0, k = left;
+
+        while (i < size1 && j < size2) {
+            if (leftArray[i].compareTo(rightArray[j]) <= 0) {
+                array[k++] = (T) leftArray[i++];
+            } else {
+                array[k++] = (T) rightArray[j++];
+            }
+        }
+
+        while (i < size1)
+            array[k++] = (T) leftArray[i++];
+
+        while (j < size2)
+            array[k++] = (T) rightArray[j++];
+    }
+}
